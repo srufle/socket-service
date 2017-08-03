@@ -6,16 +6,15 @@ FROM openjdk:8-jre-alpine
 # File Author / Maintainer
 MAINTAINER Kyle McAdams
 
+ARG VERSION=0.0.1
+ARG DEST_JAR=service-sender.jar
 ################## BEGIN INSTALLATION ######################
-COPY ./Echo/EchoClient/EchoClient.jar /home
-
-ENV SERVICE_LISTENER_NAME echo-listener
-ENV SERVICE_LISTENER_PORT 4444
+COPY ./target/service-sender-${VERSION}-SNAPSHOT.jar /home/${DEST_JAR}
 
 ##################### INSTALLATION END #####################
-
+ARG PORT=4444
 # Expose the default port
-EXPOSE 4444
+EXPOSE $PORT
 
 # Set default container command
-ENTRYPOINT java -classpath /home/EchoClient.jar com.example.service.EchoClient 
+ENTRYPOINT java -classpath /home/${DEST_JAR} com.example.service.EchoClient 
